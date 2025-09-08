@@ -15,3 +15,27 @@ windows
 hệ điều hành có phí
 ssl có phí
 (dùng giao diện)
+
+Đối với Blazor thì dùng
+open source (liên quan tới Library MudBlazor)
+quản lý:
+thêm xóa sửa nhân viên, quản lý sản phẩm
+phần quyền (chi tiết): accout này chỉ được xem, accout khác được thêm, admin toàn quyền
+authen/author build luôn phần gửi email (email luôn luôn phải sửa lại code thì mới chạy ok được, luôn luôn bảo trì hệ thống)
+
+
+unity c#: có phí (trả phí theo lượt tải ở một khi số lượt tải game tới một mức nào đó)
+
+công cụ: miễn phí có, trả phí có
+deploy: trả phí
+
+sdl c++ (code siêu nhiều): nhẹ và 
+miễn phí
+
+cocos2dx: QT, ... nhẹ, miễn phí
+
+setup công cụ (Unity Core + VS2022)
+
+Tutorial: Create a minimal API with ASP.NET Core
+
+

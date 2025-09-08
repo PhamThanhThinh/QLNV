@@ -1,4 +1,6 @@
-﻿using QLNV.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using QLNV.Data;
+using QLNV.ViewModels;
 
 namespace QLNV.Services
 {
@@ -13,7 +15,19 @@ namespace QLNV.Services
       _db = db;
     }
 
-
-
+    // tạo task trong này
+    // s ếch
+    public async Task<List<EmployeeViewModel>> GetAllEmployees()
+    {
+      // linq theo kiểu method syntax
+      return await _db.Employees
+        .OrderBy(x => x.FullName)
+        .Select(x => new EmployeeViewModel
+        {
+          FullName = x.FullName,
+          Department = x.Department,
+          DateOfBirth = x.DateOfBirth,
+        }).ToListAsync();
+    }
   }
 }
