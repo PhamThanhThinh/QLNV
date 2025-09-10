@@ -14,7 +14,7 @@ namespace QLNV.ViewModels
       get
       {
         //return "NV" + EmployeeId.ToString();
-        return "NV" + EmployeeId.ToString().PadLeft(2, '0');
+        return "NV" + EmployeeId.ToString().PadLeft(4, '0');
       }
     }
 

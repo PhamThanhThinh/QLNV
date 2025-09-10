@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MudBlazor.Services;
 using QLNV.Components;
 using QLNV.Data;
-using MudBlazor.Services;
+using QLNV.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<QLNVDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddMudServices();
+builder.Services.AddScoped<EmployeeService>();
 
 var app = builder.Build();
 

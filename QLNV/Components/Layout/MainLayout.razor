@@ -9,7 +9,19 @@
 @* Needed for snackbars *@
 <MudSnackbarProvider @rendermode=InteractiveServer />
 
-<div class="page">
+@* <MudMainContent>
+    <MudContainer MaxWidth="MaxWidth.Medium">
+        @Body
+    </MudContainer>
+</MudMainContent> *@
+
+<MudContainer>
+  <div class="mt-5">
+    @Body
+  </div>
+</MudContainer>
+
+@* <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
@@ -23,7 +35,7 @@
             @Body
         </article>
     </main>
-</div>
+</div> *@
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
