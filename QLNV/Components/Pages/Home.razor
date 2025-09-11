@@ -141,6 +141,10 @@
     var result = await dialog.Result;
 
     // kiểm tra điều kiện
+    if (result is not null && !result.Canceled)
+    {
+      await dataGrid.ReloadServerData();
+    }
 
   }
 }

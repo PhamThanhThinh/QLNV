@@ -1,0 +1,17 @@
+https://mudblazor.com/components/datagrid#server-side-filtering,-sorting-and-pagination
+
+
+instance => biểu thức
+
+DatabaseFirst
+làm storeprocedure trước
+WebForm
+
+CodeFirst:
+sql thuần
+linq: method syntax (gọi method) và  syntax (giống sql thuần)
+
+
+storeprocedure (nhanh hơn, sql thuần): viết được yêu cầu phức tạp, gộp
+linq: không viết được biểu thức quá phức tạp, chia nhỏ ra để làm
+

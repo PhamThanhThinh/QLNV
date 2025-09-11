@@ -1,5 +1,77 @@
-﻿<h3>Create Or Update Employee</h3>
+﻿@using QLNV.Services
+@using QLNV.ViewModels
+@inject ISnackbar Snackbar
+@inject EmployeeService EmployeeService
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+  <MudDialog>
+    <DialogContent>
+      <DataAnnotationsValidator />
+      <MudGrid Class="mb-5">
+        <MudItem xs="9">
+          <MudTextField @bind-Value="model.FullName"
+                        Variant="Variant.Outlined"
+                        For="@(() => model.FullName)"
+                        ShrinkLabel></MudTextField>
+        </MudItem>
+        <MudItem xs="9">
+          <MudTextField @bind-Value="model.Age"
+                        Variant="Variant.Outlined"
+                        For="@(() => model.Age)"
+                        ShrinkLabel></MudTextField>
+        </MudItem>
+      </MudGrid>
+      <MudDatePicker Class="mb-5" Variant="Variant.Outlined"
+                     Label="Ngày Sinh"
+                     @bind-Value="_date"/>
+
+      <MudTextField Class="mb-5" @bind-Value="model.Department"
+                    Variant="Variant.Outlined"
+                    For="@(() => model.Department)"
+                    ShrinkLabel></MudTextField>
+
+      <MudTextField Class="mb-5" @bind-Value="model.PhoneNumber"
+                    Variant="Variant.Outlined"
+                    For="@(() => model.PhoneNumber)"
+                    ShrinkLabel></MudTextField>
+    </DialogContent>
+
+    <DialogActions>
+      <MudButton OnClick="Cancel">Thoát</MudButton>
+      <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Lưu</MudButton>
+    </DialogActions>
+
+  </MudDialog>
+</EditForm>
 
 @code {
+  [CascadingParameter]
+  private IMudDialogInstance MudDialog { get; set; }
+  public EmployeeViewModel model { get; set; } = new EmployeeViewModel();
+  public DateTime? _date { get; set; } = DateTime.Today;
+
+  private async Task OnValidSubmit(EditContext editContext)
+  {
+    if (_date is not null )
+    {
+      model.DateOfBirth = _date.Value;
+    }
+
+    var result = EmployeeService.CreateEmployee(model);
+    if (result)
+    {
+      Snackbar.Add("Đã Thêm Thành Công", Severity.Success);
+      MudDialog.Close();
+    }
+    else
+    {
+      Snackbar.Add("Không Thể Thêm Thông Tin. Vui Lòng Kiểm Tra Lại", Severity.Error);
+    }
+  }
+
+  private void Cancel()
+  {
+    MudDialog.Cancel();
+  }
 
 }
