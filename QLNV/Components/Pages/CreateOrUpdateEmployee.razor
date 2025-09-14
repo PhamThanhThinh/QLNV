@@ -10,12 +10,14 @@
       <MudGrid Class="mb-5">
         <MudItem xs="9">
           <MudTextField @bind-Value="model.FullName"
+                        Label="Họ Và Tên"
                         Variant="Variant.Outlined"
                         For="@(() => model.FullName)"
                         ShrinkLabel></MudTextField>
         </MudItem>
         <MudItem xs="9">
           <MudTextField @bind-Value="model.Age"
+                        Label="Tuổi"
                         Variant="Variant.Outlined"
                         For="@(() => model.Age)"
                         ShrinkLabel></MudTextField>
@@ -27,11 +29,13 @@
 
       <MudTextField Class="mb-5" @bind-Value="model.Department"
                     Variant="Variant.Outlined"
+                    Label="Phòng Ban"
                     For="@(() => model.Department)"
                     ShrinkLabel></MudTextField>
 
       <MudTextField Class="mb-5" @bind-Value="model.PhoneNumber"
                     Variant="Variant.Outlined"
+                    Label="Số Điện Thoại"
                     For="@(() => model.PhoneNumber)"
                     ShrinkLabel></MudTextField>
     </DialogContent>

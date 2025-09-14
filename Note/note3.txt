@@ -1,0 +1,15 @@
+instance
+
+html thuộc tính gọi là attribute
+
+css thuộc tính gọi là property
+
+parameter gọi chung là tham số
+(trong method/function thường gọi tham số truyền vào, ví dụ: cú pháp syntax method(tham số truyền vào))
+
+import
+export
+cơ bản với một bảng dữ liệu
+
+- web trò chuyện
+
