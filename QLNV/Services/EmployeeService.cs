@@ -60,5 +60,76 @@ namespace QLNV.Services
       }
     }
 
+    public EmployeeViewModel? FindEmployee(int employeeId)
+    {
+      var employee = _db.Employees.FirstOrDefault();
+
+      if (employee == null)
+      {
+        return null;
+      }
+
+      EmployeeViewModel employeeViewModel = new EmployeeViewModel
+      {
+        EmployeeId = employee.EmployeeId,
+        FullName = employee.FullName,
+        Department = employee.Department,
+        DateOfBirth = employee.DateOfBirth,
+        Age = employee.Age,
+        PhoneNumber = employee.PhoneNumber,
+      };
+
+      return employeeViewModel;
+    }
+
+    public bool UpdateEmployee(EmployeeViewModel employeeViewModel)
+    {
+      try
+      {
+        var employee = _db.Employees.Find(employeeViewModel.EmployeeId);
+
+        if (employee == null)
+        {
+          return false;
+        }
+
+        employee.FullName = employeeViewModel.FullName;
+        employee.Department = employeeViewModel.Department;
+        employee.DateOfBirth = employeeViewModel.DateOfBirth;
+        employee.Age = employeeViewModel.Age;
+        employee.PhoneNumber = employeeViewModel.PhoneNumber;
+
+        // lưu
+        var result = _db.SaveChanges();
+        return result > 0;
+
+      }
+      catch (Exception ex)
+      {
+        return false;
+      }
+    }
+
+    public bool DeleteEmployee(int employeeId)
+    {
+      try
+      {
+        var employee = _db.Employees.Find(employeeId);
+
+        if (employee == null)
+        {
+          return false;
+        }
+
+        _db.Employees.Remove(employee);
+        // lưu
+        var result = _db.SaveChanges();
+        return result > 0;
+      }
+      catch (Exception ex)
+      {
+        return false;
+      }
+    }
   }
 }
