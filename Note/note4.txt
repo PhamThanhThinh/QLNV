@@ -1,0 +1,31 @@
+Q&A
+SQLite
+MSSQL
+MySQL
+...
+
+Linux: build server -> cmd commandline -> không dùng GUI vì lỗi bảo mật
+
+Windows 10 GUI
+=> VPS Windows 10 GUI => tool cào username và mật khẩu => dễ bị chôm
+
+Unix
+
+100 video
+1 video vài phút
+5 chương đầu
+15
+public 5 chương đầu 30 video
+private 10 chương sau
+5 chương đầu là đủ kiến thức bắt làm game đơn giản
+Unity 2D
+
+2D
+indie
+backend: C#
+frontend: Blazor
+
+
+
+
+
