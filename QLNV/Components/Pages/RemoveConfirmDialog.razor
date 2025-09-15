@@ -1,0 +1,29 @@
+﻿<MudDialog>
+  <DialogContent>
+    <MudText>Bạn có chắc là muốn xóa thông tin nhân viên không? Tiến trình sẽ không thể hoàn tác!</MudText>
+  </DialogContent>
+  <DialogActions>
+    <MudButton OnClick="Cancel">Thoát</MudButton>
+    <MudButton OnClick="Submit" Color="Color.Primary" Variant="Variant.Filled">Xóa Thông Tin</MudButton>
+  </DialogActions>
+</MudDialog>
+
+@code {
+  [CascadingParameter]
+  private IMudDialogInstance MudDialog { get; set; }
+
+  private void Cancel()
+  {
+    MudDialog.Cancel();
+  }
+
+  private void Submit()
+  {
+    // var kq = DialogResult.Ok(true);
+    // MudDialog.Close(kq);
+
+    MudDialog.Close(DialogResult.Ok(true));
+
+  }
+
+}

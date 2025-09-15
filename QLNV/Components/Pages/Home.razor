@@ -3,6 +3,7 @@
 @using System.Threading
 @using QLNV.ViewModels
 @using QLNV.Services
+@inject ISnackbar Snackbar
 @inject EmployeeService EmployeeService
 @inject IDialogService DialogService
 
@@ -39,6 +40,27 @@
     <PropertyColumn Property="x => x.DateOfBirth" Format="dd MM yyyy" Title="Ngày Sinh" />
     <PropertyColumn Property="x => x.Age" Title="Tuổi" />
     <PropertyColumn Property="x => x.PhoneNumber" Title="Số Điện Thoại" />
+    <TemplateColumn CellClass="d-flex justify-end">
+      <CellTemplate>
+        <MudButton Class="me-2"
+                   Size="@Size.Medium"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Edit"
+                   OnClick="@(() => this.UpdateEmployee(context))">
+                   Edit
+        </MudButton>
+        @* <button class="btn btn-primary">test</button> *@
+        <MudButton Class="me-2"
+                   Size="@Size.Medium"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Edit"
+                   OnClick="@(() => this.RemoveEmployee(context))">
+          Delete
+        </MudButton>
+      </CellTemplate>
+    </TemplateColumn>
   </Columns>
   <PagerContent>
     <MudDataGridPager T="EmployeeViewModel" />
@@ -136,8 +158,15 @@
   {
     var options = new DialogOptions { MaxWidth = MaxWidth.Large };
 
-    var dialog = await DialogService.ShowAsync<CreateOrUpdateEmployee>("Thêm Nhân Viên", options);
+    // var dialog = await DialogService.ShowAsync<CreateOrUpdateEmployee>("Thêm Nhân Viên", options);
 
+    var parameters = new DialogParameters<CreateOrUpdateEmployee>
+    {
+      { xmethod => xmethod.Action, QLNV.Enum.UIActionEnum.Insert },
+      { xmethod => xmethod.model, new EmployeeViewModel() }
+    };
+
+    var dialog = await DialogService.ShowAsync<CreateOrUpdateEmployee>("Thêm Nhân Viên", parameters, options);
     var result = await dialog.Result;
 
     // kiểm tra điều kiện
@@ -147,4 +176,67 @@
     }
 
   }
+
+  private async Task UpdateEmployee(CellContext<EmployeeViewModel> employee)
+  {
+    var emloyeeId = EmployeeService.FindEmployee(employee.Item.EmployeeId);
+
+    if (emloyeeId is null)
+    {
+      Snackbar.Add("Không tìm thấy nhân viên", Severity.Error);
+      return;
+    }
+
+    var options = new DialogOptions { MaxWidth = MaxWidth.Large };
+
+    // var dialog = await DialogService.ShowAsync<CreateOrUpdateEmployee>("Thêm Nhân Viên", options);
+
+    var parameters = new DialogParameters<CreateOrUpdateEmployee>
+    {
+      { xmethod => xmethod.Action, QLNV.Enum.UIActionEnum.Update },
+      { xmethod => xmethod.model, emloyeeId },
+      { xmethod => xmethod._date, emloyeeId.DateOfBirth },
+    };
+
+    var dialog = await DialogService.ShowAsync<CreateOrUpdateEmployee>("Cập Nhật Thông Tin Nhân Viên", parameters, options);
+    var result = await dialog.Result;
+
+    // kiểm tra điều kiện
+    if (result is not null && !result.Canceled)
+    {
+      await dataGrid.ReloadServerData();
+    }
+  }
+
+  private async Task RemoveEmployee(CellContext<EmployeeViewModel> employee)
+  {
+    // var dialog = await DialogService.ShowAsync<RemoveConfirmDialog>("Xác Nhận Xóa Thông Tin Nhân Viên");
+    var dialog = await DialogService.ShowAsync<RemoveConfirmDialog>("Xác Nhận Xóa Thông Tin Nhân Viên: " + employee.Item.FullName);
+
+    var result = await dialog.Result;
+
+    if (result is not null && !result.Canceled)
+    {
+      var confirm = (bool)(result.Data ?? false);
+
+      if (confirm)
+      {
+        var deleteResult = EmployeeService.DeleteEmployee(employee.Item.EmployeeId);
+        if (deleteResult)
+        {
+          Snackbar.Add("Đã Xóa Thành Công", Severity.Success);
+          await dataGrid.ReloadServerData();
+        }
+        else
+        {
+          Snackbar.Add("Không Thể Xóa Thông Tin Nhân Viên. Vui Lòng Kiểm Tra Lại", Severity.Error);
+        }
+      }
+
+    }
+
+
+
+  }
+
 }
