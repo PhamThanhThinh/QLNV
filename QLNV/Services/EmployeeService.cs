@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClosedXML.Excel;
+using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using QLNV.Data;
 using QLNV.Data.Entities;
 using QLNV.ViewModels;
@@ -132,7 +134,68 @@ namespace QLNV.Services
       }
     }
 
+    public async Task<bool> ImportEmployee(List<EmployeeViewModel> employees)
+    {
+      try
+      {
+        List<Employee> employeeToDB = new List<Employee>();
 
+        foreach (var item in employees)
+        {
+          Employee employee = new Employee
+          {
+            FullName = item.FullName,
+            Department = item.Department,
+            DateOfBirth = item.DateOfBirth,
+            Age = item.Age,
+            PhoneNumber = item.PhoneNumber,
+          };
+          employeeToDB.Add(employee);
+        }
+
+        await _db.BulkInsertAsync(employeeToDB);
+        return true;
+      }
+      catch (Exception ex)
+      {
+        return false;
+      }
+    }
+
+    public async Task<Byte[]> ExportEmployee(List<EmployeeViewModel> employees)
+    {
+      var data = await GetAllEmployees();
+      using (var item = new XLWorkbook())
+      {
+        var worksheet = item.Worksheets.Add("Employee");
+
+        // headers
+        worksheet.Cell(1, 1).Value = "Employee Id";
+        worksheet.Cell(1, 2).Value = "FullName";
+        worksheet.Cell(1, 3).Value = "Department";
+        worksheet.Cell(1, 4).Value = "DateOfBirth";
+        worksheet.Cell(1, 5).Value = "Age";
+        worksheet.Cell(1, 6).Value = "Phone Number";
+
+        for (int i = 0; i < data.Count; i++)
+        {
+          // 1 -> NV001
+          worksheet.Cell(i + 2, 1).Value = data[i].EmployeeIdView;
+          worksheet.Cell(i + 2, 2).Value = data[i].FullName;
+          worksheet.Cell(i + 2, 3).Value = data[i].Department;
+          worksheet.Cell(i + 2, 4).Value = data[i].DateOfBirth;
+          worksheet.Cell(i + 2, 5).Value = data[i].Age;
+          worksheet.Cell(i + 2, 6).Value = data[i].PhoneNumber;
+        }
+
+        using (var stream = new MemoryStream())
+        {
+          item.SaveAs(stream);
+          return stream.ToArray();
+        }
+
+      }
+    }
 
   }
 }

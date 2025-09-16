@@ -29,6 +29,22 @@
       Thêm Nhân Viên
     </MudButton>
 
+    <MudFileUpload 
+      Class="me-2" 
+      @ref="excelUpload"
+      FilesChanged="UploadFiles" 
+      T="IBrowserFile">
+    
+      <ActivatorContent>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload">
+          Upload Files
+        </MudButton>
+      </ActivatorContent>
+
+    </MudFileUpload>
+
     <MudSpacer />
     <MudTextField T="string" ValueChanged="@(s => OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                   AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -237,6 +253,15 @@
 
 
 
+  }
+
+  private MudFileUpload<IBrowserFile> excelUpload;
+
+  IList<IBrowserFile> _files = new List<IBrowserFile>();
+  private void UploadFiles(IBrowserFile file)
+  {
+    _files.Add(file);
+    //TODO upload the files to the server
   }
 
 }

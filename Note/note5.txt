@@ -1,0 +1,20 @@
+component
+
+C: auto car, lĩnh vực xe tự lái, nhúng
+C++: game SDL/OpenGL/Cocos2dx, auto car, lĩnh vực xe tự lái, nhúng
+C#: game Unity 2D/3D, app desktop (windows, linux, macos), app mobile (ios, android), làm web, tool tự động: cào dữ liệu, ...
+Java: web, app (desktop, mobile)
+JavaScript: web, app
+...
+
+chặn proxy để dev không vô được nhiều trang: fb, youtube, tiếng Việt
+
+để lại các trang tiếng anh: stackoverflow
+
+yêu cầu => chưa biết làm => search stackoverflow => code quan trọng để xử lý vấn đề (code example) => phát triển tool xử lý yêu cầu
+
+hoặc là đã có một phần mềm sẵn (stackoverflow) => mod lại
+
+
+
+
