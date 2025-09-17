@@ -1,0 +1,69 @@
+﻿@using QLNV.Services
+@using QLNV.ViewModels
+
+@inject EmployeeService EmployeeService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+  <DialogContent>
+    @* loại bỏ chức năng sort default *@
+    <MudDataGrid Items="@employees" SortMode="@SortMode.None" Filterable="false">
+      <Columns>
+        <PropertyColumn Property="x => x.FullName" Title="Họ Và Tên" />
+        <PropertyColumn Property="x => x.Department" Title="Phòng Ban" />
+        <PropertyColumn Property="x => x.DateOfBirth" Format="dd MM yyyy" Title="Ngày Sinh" />
+        <PropertyColumn Property="x => x.Age" Title="Tuổi" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="Số Điện Thoại" />
+        <TemplateColumn CellClass="d-flex justify-end">
+          <CellTemplate>
+            <MudButton Class="me-2"
+                       Size="@Size.Medium"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Delete"
+                       OnClick="@(() => RemoveEmployee(context))">
+              Delete
+            </MudButton>
+          </CellTemplate>
+        </TemplateColumn>
+      </Columns>
+    </MudDataGrid>
+  </DialogContent>
+  <DialogActions>
+    <MudButton OnClick="Cancel">Thoát</MudButton>
+    @* <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Import</MudButton> *@
+    <MudButton OnClick="Submit" Color="Color.Primary">Import</MudButton>
+  </DialogActions>
+</MudDialog>
+
+@code {
+  [Parameter]
+  public List<EmployeeViewModel> employees { get; set; } = new List<EmployeeViewModel>();
+  [CascadingParameter]
+  private IMudDialogInstance MudDialog { get; set; }
+  private async Task RemoveEmployee(CellContext<EmployeeViewModel> employee)
+  {
+    employees.Remove(employee.Item);
+    StateHasChanged();
+  }
+
+  private void Cancel()
+  {
+    MudDialog.Cancel();
+  }
+
+  private async Task Submit()
+  {
+    var result = await EmployeeService.ImportEmployee(employees);
+    if (result)
+    {
+      Snackbar.Add("Đã Import Thành Công", Severity.Success);
+      MudDialog.Close(DialogResult.Ok(true));
+    }
+    else
+    {
+      Snackbar.Add("Không Thể Import Dữ Liệu. Vui Lòng Kiểm Tra Lại File Excel", Severity.Error);
+    }
+  }
+
+}

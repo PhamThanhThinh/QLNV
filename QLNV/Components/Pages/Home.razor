@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @using System.Threading
+@using ClosedXML.Excel
 @using QLNV.ViewModels
 @using QLNV.Services
 @inject ISnackbar Snackbar
@@ -29,21 +30,26 @@
       Thêm Nhân Viên
     </MudButton>
 
-    <MudFileUpload 
-      Class="me-2" 
-      @ref="excelUpload"
-      FilesChanged="UploadFiles" 
-      T="IBrowserFile">
-    
+    <MudFileUpload Class="me-2"
+                   @ref="excelUpload"
+                   FilesChanged="UploadFiles"
+                   T="IBrowserFile">
+
       <ActivatorContent>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.CloudUpload">
-          Upload Files
+          Import File Excel
         </MudButton>
       </ActivatorContent>
-
     </MudFileUpload>
+
+    <MudButton @onclick="ExportFileExcel"
+               Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.CloudUpload">
+      Export File Excel
+    </MudButton>
 
     <MudSpacer />
     <MudTextField T="string" ValueChanged="@(s => OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
@@ -64,7 +70,7 @@
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.Edit"
                    OnClick="@(() => this.UpdateEmployee(context))">
-                   Edit
+          Edit
         </MudButton>
         @* <button class="btn btn-primary">test</button> *@
         <MudButton Class="me-2"
@@ -248,20 +254,91 @@
           Snackbar.Add("Không Thể Xóa Thông Tin Nhân Viên. Vui Lòng Kiểm Tra Lại", Severity.Error);
         }
       }
+    }
+  }
 
+  MudFileUpload<IBrowserFile> excelUpload;
+
+  // IList<IBrowserFile> _files = new List<IBrowserFile>();
+  private async Task UploadFiles(IBrowserFile file)
+  {
+    if (file is null)
+    {
+      return;
     }
 
+    try
+    {
+      // using (var stream = new MemoryStream())
+      // {
+      //   await file.OpenReadStream().CopyToAsync(stream);
+      //   stream.Position = 0;
+      // }
 
+      // ta dùng cách code rút gọn
+      using var stream = new MemoryStream();
+      await file.OpenReadStream().CopyToAsync(stream);
+      stream.Position = 0;
 
-  }
+      // var một variable đại diện cho file excel
+      using var workbook = new XLWorkbook(stream);
+      // tạo một variable đại diện cho một sheet trong file excel
+      var worksheet = workbook.Worksheets.First();
 
-  private MudFileUpload<IBrowserFile> excelUpload;
+      // tạo một variable đại diện cho tất cả các dòng trong bảng dữ liệu
+      var rows = worksheet.RowsUsed().Skip(1);
 
-  IList<IBrowserFile> _files = new List<IBrowserFile>();
-  private void UploadFiles(IBrowserFile file)
-  {
-    _files.Add(file);
+      List<EmployeeViewModel> employees = new List<EmployeeViewModel>();
+
+      foreach (var item in rows)
+      {
+        EmployeeViewModel employeeViewModel = new EmployeeViewModel
+        {
+          FullName = item.Cell(1).Value.ToString(),
+          Department = item.Cell(2).Value.ToString(),
+          DateOfBirth = item.Cell(3).Value,
+          Age = int.Parse(item.Cell(4).Value.ToString()),
+          PhoneNumber = item.Cell(5).Value.ToString(),
+        };
+
+        employees.Add(employeeViewModel);
+      }
+
+      // phải tạo component ImportDialog trước khi code dòng bên dưới
+      var parameters = new DialogParameters<ImportDialog>
+      {
+        { x => x.employees, employees }
+      };
+
+      var options = new DialogOptions() { MaxWidth = MaxWidth.Large };
+
+      var dialog = await DialogService.ShowAsync<ImportDialog>("Import nhân viên từ Excel", parameters, options);
+
+      var result = await dialog.Result;
+
+      if (result != null && !result.Canceled)
+      {
+        await dataGrid.ReloadServerData();
+      }
+
+    }
+    catch (Exception ex)
+    {
+      return;
+    }
+
+    // _files.Add(file);
     //TODO upload the files to the server
+
+    await excelUpload.ClearAsync();
+
   }
+
+  private async Task ExportFileExcel()
+  {
+
+  }
+
+
 
 }

@@ -1,0 +1,61 @@
+import excel
+export excel
+
+private
+public
+global
+static
+đơn kế thừa
+object
+
+HTML, CSS, JS
+biết cách dụng bootstrap hoặc giao diện bootstrap (free, paid)
+header
+body
+footer
+
+MSSQL
+bigtech MS
+hệ sinh thái của MS
+
+- Lập Trình Căn Bản: C/C++/Python
+- Học JavaScript, học NodeJS (backend)
+- Học C#/Java (backend)
+
+***web***
++ React + NodeJS (HTML, CSS, JS)
++ .NET (C#, HTML, CSS, JS)
++ Spring MVC (Java, HTML, CSS, JS)
+
+***game***
++ Unity C# (80%)
++ C++: SDL, OpenGL, Cocos2dx, Vulkan, ...
++ Lua: Roblox, thuần Lua
+
+***app***
+mobile app: java (android), c# (android, ios)
+desktop app: java (windows, linux, macos), c# (windows, linux, macos): XAML wpf, XAML làm giao diện cho điện thoại.
+MacOS: Swift
+
+***nhúng***
+cơ điện tử
+ngôn ngữ C/C++
+phần cứng: phải mua phần cứng về thực hành
+
+***tool tự động hóa (tool auto)***
+c#, java, javascript, python, ...
+
+- Blazor: Blazor Server -> Blazor Webassembly
+- Deploy: hosting somee free
+
+linux: ssl certbot free
+windows: ssl phải paid, dùng dịch vụ khác
+
+
+devexpress quá ok (paid, dùng chui)
+flowlayoutpanel quá basic
+
+
+20h00 hằng ngày trên kênh CodingWithThinh
+
+
