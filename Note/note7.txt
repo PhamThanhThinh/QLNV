@@ -180,5 +180,5 @@ tất cả đều quy về object
 chúng ta chấm tới (dùng dấu .) để gọi một object
 
 
-
+tránh dùng giao diện GUI để tránh bị scan vps
 
