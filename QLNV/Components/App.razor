@@ -19,6 +19,20 @@
   <Routes />
   <script src="_framework/blazor.web.js"></script>
   <script src="_content/MudBlazor/MudBlazor.min.js?v=@(MudBlazor.Metadata.Version)"></script>
+  <script>
+    function downloadFileFromBytes(fileName, byteArray) {
+      // Tạo một blob từ byte array
+      var blob = new Blob([new Uint8Array()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+      // Tạo thẻ <a> để download
+      // var a = document.createElement("a");
+      var a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+    }
+
+  </script>
 </body>
 
 </html>

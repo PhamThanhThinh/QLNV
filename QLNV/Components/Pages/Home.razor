@@ -7,6 +7,7 @@
 @inject ISnackbar Snackbar
 @inject EmployeeService EmployeeService
 @inject IDialogService DialogService
+@inject IJSRuntime Runtime
 
 @rendermode InteractiveServer
 
@@ -28,6 +29,45 @@
                Variant="Variant.Filled"
                Color="Color.Primary">
       Thêm Nhân Viên
+    </MudButton>
+
+    <MudFileUpload Class="me-2" T="IBrowserFile" @ref="excelUpload" FilesChanged="UploadFiles">
+      <ActivatorContent>
+        <MudButton Disabled="@import"
+          Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Custom.FileFormats.FileExcel">
+          @if (import)
+          {
+            <MudProgressCircular Class="ms-n1"
+                                 Size="Size.Small"
+                                 Indeterminate="true">
+            </MudProgressCircular>
+            <MudText Class="ms-2">Load...</MudText>
+          }
+          else
+          {
+            <MudText Class="ms-2">Đang import dữ liệu chờ một lát không được tắt tab trình duyệt này </MudText>
+          }
+        </MudButton>
+      </ActivatorContent>
+    </MudFileUpload>
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Custom.FileFormats.FileExcel">
+      @if (export)
+      {
+        <MudProgressCircular Class="ms-n1"
+                             Size="Size.Small"
+                             Indeterminate="true">
+        </MudProgressCircular>
+        <MudText Class="ms-2">Load...</MudText>
+      }
+      else
+      {
+        <MudText Class="ms-2">Đang export dữ liệu chờ một lát không được tắt tab trình duyệt này </MudText>
+      }
     </MudButton>
 
     <MudFileUpload Class="me-2"
@@ -91,7 +131,11 @@
 
 @code {
   MudDataGrid<EmployeeViewModel> dataGrid;
+  MudFileUpload<IBrowserFile> excelUpload;
   string searchString = null;
+
+  bool import = false;
+  bool export = false;
 
   /// <summary>
   /// Here we simulate getting the paged, filtered and ordered data from the server
@@ -257,7 +301,7 @@
     }
   }
 
-  MudFileUpload<IBrowserFile> excelUpload;
+  
 
   // IList<IBrowserFile> _files = new List<IBrowserFile>();
   private async Task UploadFiles(IBrowserFile file)
@@ -336,7 +380,9 @@
 
   private async Task ExportFileExcel()
   {
+    var excelBytes = await EmployeeService.ExportEmployee();
 
+    await Runtime.InvokeVoidAsync("downloadFileFromBytes", "danh-sach-nhan-vien.xlsx", excelBytes);
   }
 
 

@@ -162,7 +162,7 @@ namespace QLNV.Services
       }
     }
 
-    public async Task<Byte[]> ExportEmployee(List<EmployeeViewModel> employees)
+    public async Task<Byte[]> ExportEmployee()
     {
       var data = await GetAllEmployees();
       using (var item = new XLWorkbook())

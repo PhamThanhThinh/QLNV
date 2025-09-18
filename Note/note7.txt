@@ -1,0 +1,184 @@
+@using QLNV.Services
+@using QLNV.ViewModels
+
+@inject EmployeeService EmployeeService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+  <DialogContent>
+    <MudDataGrid Items="@employees" SortMode="@SortMode.None" Filterable="false">
+      <ToolBarContent>
+        @* <MudText Typo="Typo.h6">Danh Sách Nhân Viên</MudText> *@
+        @* <MudText Typo="Typo.h6">Hệ Thống Quản Lý Nhân Viên</MudText> *@
+
+        @* button thêm nhân viên *@
+        <MudButton Class="me-2"
+                   @onclick="CreateEmployee"
+                   StartIcon="@Icons.Material.Filled.PersonAddAlt1"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary">
+          Thêm Nhân Viên
+        </MudButton>
+
+        <MudFileUpload Class="me-2"
+                       @ref="excelUpload"
+                       FilesChanged="UploadFiles"
+                       T="IBrowserFile">
+
+          <ActivatorContent>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.CloudUpload">
+              Import File Excel
+            </MudButton>
+          </ActivatorContent>
+        </MudFileUpload>
+
+        <MudButton @onclick="ExportFileExcel"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload">
+          Export File Excel
+        </MudButton>
+
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s => OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+      </ToolBarContent>
+      <Columns>
+        <PropertyColumn Property="x => x.EmployeeIdView" Title="Mã Nhân Viên" />
+        <PropertyColumn Property="x => x.FullName" Title="Họ Và Tên" />
+        <PropertyColumn Property="x => x.Department" Title="Phòng Ban" />
+        <PropertyColumn Property="x => x.DateOfBirth" Format="dd MM yyyy" Title="Ngày Sinh" />
+        <PropertyColumn Property="x => x.Age" Title="Tuổi" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="Số Điện Thoại" />
+        <TemplateColumn CellClass="d-flex justify-end">
+          <CellTemplate>
+            <MudButton Class="me-2"
+                       Size="@Size.Medium"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Edit"
+                       OnClick="@(() => this.UpdateEmployee(context))">
+              Edit
+            </MudButton>
+            @* <button class="btn btn-primary">test</button> *@
+            <MudButton Class="me-2"
+                       Size="@Size.Medium"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Edit"
+                       OnClick="@(() => this.RemoveEmployee(context))">
+              Delete
+            </MudButton>
+          </CellTemplate>
+        </TemplateColumn>
+      </Columns>
+      <PagerContent>
+        <MudDataGridPager T="EmployeeViewModel" />
+      </PagerContent>
+    </MudDataGrid>
+  </DialogContent>
+</MudDialog>
+
+@code {
+  [Parameter]
+  public List<EmployeeViewModel> employees { get; set; } = new List<EmployeeViewModel>();
+
+}
+
+
+
+- Lấy kinh nghiệm
+- Thường được nhận khi ở lại không bỏ giữa chừng (ngày xưa)
+- Lấy tín chỉ (+1 lý do ở lại)
+- Lấy kinh nghiệm đó apply vị trí ngon hơn
+- Hỏi thử
+
+CV: 2 project thực tế
+lấy project (tên dự án, quy trình làm) đi phỏng vấn công ty khác
+
+automatic
+
+devops
+tạo server
+
+tech lead
+
+tech
+
+
+Unity 2D (dungeon)
+Unity 2D RPG
+
+
+
+
+java developer akka framework
+
+=> rãi cv nhiều vô
+=> nhờ mối quan hệ
+
+
+
+
+
+game:
+C# Unity
+C++ SDL, OpenGL, Cocos2dx, Vulkan
+Lua Roblox
+
+
+Code web quản lý nhân viên
+CRUD + Import/Export excel
+công nghệ Blazor Server (ASP.NET Core .net 8)
+Library MudBlazor thư viện giao diện
+Component (Frontend nói chung)
+React, Blazor
+
+linux
+kestrel
+sql
+
+Visual Studio 2019
+Visual Studio 2022
+Visual Studio 2026
+
+
+MudBlazor dùng thư viện cho dễ
+chúng ta không hoàn thành nó từ đầu
+chúng ta cần sử dụng viện trợ
+không nên code từ đầu
+
+c/c++: tự code từ đầu (khó hơn nhiều, cool ngầu hơn, code cực hơn)
+
+c#: dùng có sẵn
+
+C# vốn dĩ là backend
+Blazor => code frontend
+Cho nên C# vừa là backend vừa là frontend
+
+
+PM tìm 1 job của khách hàng lớn (Nhật/US/UK) => làm nguyên năm => tháng nào cũng được thưởng
+
+làm CTO nhà giàu sẵn, phú nhị đại
+giàu đời thứ hai
+
+con đại gia
+
+
+bốc gạch (code)
+
+1 mình -> dễ bị đập xây lại
+nhóm -> hầu như không
+trừ khi dự án phá sản
+
+quy trình cho một dự án bự nó rất chặt chẽ
+kỹ tới từng pixel (nhất là đối với khách hàng Nhật, người ta rất khắc khe)
+
+tất cả đều quy về object
+chúng ta chấm tới (dùng dấu .) để gọi một object
+
+
+
+
